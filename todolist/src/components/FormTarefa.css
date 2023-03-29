@@ -1,0 +1,39 @@
+#formTarefa {
+    margin-top: 100px;
+    color: #FFF;
+    font-size: 1.2rem;
+}
+
+#formTarefa input,textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    border-bottom: 3px solid rgb(42, 228, 194);
+    margin-bottom: 20px;
+}
+
+#formTarefa input:focus,textarea:focus {
+    box-shadow: 0 0 0 0;
+    outline: 0;
+}
+
+#form-title {
+    color: rgb(42, 228, 194);
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+#btn-enviar {
+    color: #000;
+    background-color: rgb(42, 228, 194);
+    border-radius: 5px;
+    margin-bottom: 50px;
+    width: 100%;
+}
+
+#btn-enviar:hover {
+    color: rgb(42, 228, 194);
+    background-color: transparent ;
+}
