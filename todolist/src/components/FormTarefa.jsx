@@ -1,10 +1,12 @@
 import "./FormTarefa.css"
 import { useState,useEffect } from "react"
+import axios from 'axios';
 
 const FormTarefa = () => {
 
     const [title,setTitle] = useState("")
     const [description,setDescription] = useState("")
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -17,7 +19,16 @@ const FormTarefa = () => {
             description: description
         }
 
-        console.log(task)
+        axios.post('http://localhost:8080/task',task)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        
+
     }
 
     return (

@@ -1,6 +1,6 @@
 import "./Navbar.css"
 
-const Navbar = () => {
+const NavbarComponent = () => {
     return (
         <navbar id="navbar">
             <h1> Lista de Tarefas</h1>
@@ -8,4 +8,4 @@ const Navbar = () => {
     )
 }
 
-export default Navbar
+export default NavbarComponent
