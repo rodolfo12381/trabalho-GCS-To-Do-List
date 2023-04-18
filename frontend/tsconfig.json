@@ -20,11 +20,11 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "types": [
-      "jest" // Adicione os tipos do Jest aqui, se necessário
+      "jest" 
     ],
   },
   "include": [
     "src", 
     "test"  
-  ]
+, "src/tests"  ]
 }
