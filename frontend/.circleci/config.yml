@@ -1,0 +1,72 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:14.16
+
+    steps:
+      - checkout # Passo para fazer o checkout do código-fonte
+
+      # Instalar dependências
+      - restore_cache:
+          keys:
+            - dependencies-v1-{{ checksum "yarn.lock" }}
+            - dependencies-v1-
+
+      - run:
+          name: Install Dependencies
+          command: yarn install
+
+      # Executar os testes usando o Jest
+      - run:
+          name: Run Tests
+          command: yarn test
+
+      # Salvar cache das dependências
+      - save_cache:
+          paths:
+            - node_modules
+          key: dependencies-v1-{{ checksum "yarn.lock" }}
+
+  deploy:
+    docker:
+      - image: circleci/node:14.16
+
+    steps:
+      - checkout # Passo para fazer o checkout do código-fonte
+
+      # Instalar dependências
+      - restore_cache:
+          keys:
+            - dependencies-v1-{{ checksum "yarn.lock" }}
+            - dependencies-v1-
+
+      - run:
+          name: Install Dependencies
+          command: yarn install
+
+      # Fazer o deploy da aplicação em um ambiente de homologação
+      - run:
+          name: Deploy to Homologation
+          command: yarn deploy:homologation
+
+      # Salvar cache das dependências
+      - save_cache:
+          paths:
+            - node_modules
+          key: dependencies-v1-{{ checksum "yarn.lock" }}
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              ignore: master # Ignorar o deploy automático na branch master
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master # Realizar o deploy automático apenas na branch master
