@@ -7,7 +7,7 @@ jobs:
       - checkout # Checar o repositório
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-{{ checksum "frontend/package.json" }}
             # Restaurar cache das dependências do npm, se disponível
       - run:
           name: Install Dependencies
@@ -22,7 +22,7 @@ jobs:
       - checkout # Checar o repositório
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-{{ checksum "frontend/package.json" }}
             # Restaurar cache das dependências do npm, se disponível
       - run:
           name: Install Dependencies
