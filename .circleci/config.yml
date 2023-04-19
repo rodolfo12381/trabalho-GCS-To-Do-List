@@ -1,72 +1,52 @@
 version: 2
 jobs:
-  build:
+  test:
     docker:
-      - image: circleci/node:14.16
-
+      - image: node:14 # Imagem do ambiente de teste com a versão do Node.js desejada
     steps:
-      - checkout # Passo para fazer o checkout do código-fonte
-
-      # Instalar dependências
+      - checkout # Checar o repositório
       - restore_cache:
           keys:
-            - dependencies-v1-{{ checksum "yarn.lock" }}
-            - dependencies-v1-
-
+            - v1-dependencies-{{ checksum "package.json" }}
+            # Restaurar cache das dependências do npm, se disponível
       - run:
           name: Install Dependencies
-          command: yarn install
-
-      # Executar os testes usando o Jest
+          command: npm ci # Instalar as dependências do projeto com o npm
       - run:
           name: Run Tests
-          command: yarn test
-
-      # Salvar cache das dependências
-      - save_cache:
-          paths:
-            - node_modules
-          key: dependencies-v1-{{ checksum "yarn.lock" }}
-
-  deploy:
+          command: npm run test # Executar os testes com o npm
+  build:
     docker:
-      - image: circleci/node:14.16
-
+      - image: node:14 # Imagem do ambiente de build com a versão do Node.js desejada
     steps:
-      - checkout # Passo para fazer o checkout do código-fonte
-
-      # Instalar dependências
+      - checkout # Checar o repositório
       - restore_cache:
           keys:
-            - dependencies-v1-{{ checksum "yarn.lock" }}
-            - dependencies-v1-
-
+            - v1-dependencies-{{ checksum "package.json" }}
+            # Restaurar cache das dependências do npm, se disponível
       - run:
           name: Install Dependencies
-          command: yarn install
-
-      # Fazer o deploy da aplicação em um ambiente de homologação
+          command: npm ci # Instalar as dependências do projeto com o npm
       - run:
-          name: Deploy to Homologation
-          command: yarn deploy:homologation
-
-      # Salvar cache das dependências
-      - save_cache:
-          paths:
-            - node_modules
-          key: dependencies-v1-{{ checksum "yarn.lock" }}
-
-workflows:
-  version: 2
-  build-deploy:
-    jobs:
-      - build:
-          filters:
-            branches:
-              ignore: master # Ignorar o deploy automático na branch master
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master # Realizar o deploy automático apenas na branch master
+          name: Build
+          command: npm run build # Executar o build da aplicação com o npm
+    when:
+        - on_success: # Executar o trabalho "build" apenas quando o trabalho "test" for bem-sucedido
+            job: test
+  # deploy:
+  #   docker:
+  #     - image: node:14 # Imagem do ambiente de homologação com a versão do Node.js desejada
+  #   steps:
+  #     - checkout # Checar o repositório
+  #     - restore_cache:
+  #         keys:
+  #           - v1-dependencies-{{ checksum "package.json" }}
+  #           # Restaurar cache das dependências do npm, se disponível
+  #     - run:
+  #         name: Install Dependencies
+  #         command: npm ci # Instalar as dependências do projeto com o npm
+  #     - run:
+  #         name: Build and Deploy
+  #         command: npm run build #&& <comando_de_deploy> # Executar o build e o deploy da aplicação com o npm
+  #   when:
+  #     - <<test>> # Nome do trabalho de testes aprovado
