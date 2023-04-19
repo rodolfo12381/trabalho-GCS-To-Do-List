@@ -11,20 +11,20 @@ jobs:
       - run:
           name: Run Tests
           command: npm run test # Executar os testes com o npm
-  build:
-    docker:
-      - image: node:14 # Imagem do ambiente de build com a versão do Node.js desejada
-    steps:
-      - checkout # Checar o repositório
-      - run:
-          name: Install Dependencies
-          command: npm ci # Instalar as dependências do projeto com o npm
-      - run:
-          name: Build
-          command: npm run build # Executar o build da aplicação com o npm
-    when:
-        - on_success: # Executar o trabalho "build" apenas quando o trabalho "test" for bem-sucedido
-            job: test
+  # build:
+  #   docker:
+  #     - image: node:14 # Imagem do ambiente de build com a versão do Node.js desejada
+  #   steps:
+  #     - checkout # Checar o repositório
+  #     - run:
+  #         name: Install Dependencies
+  #         command: npm ci # Instalar as dependências do projeto com o npm
+  #     - run:
+  #         name: Build
+  #         command: npm run build # Executar o build da aplicação com o npm
+  #   when:
+  #       - on_success: # Executar o trabalho "build" apenas quando o trabalho "test" for bem-sucedido
+  #           job: test
   # deploy:
   #   docker:
   #     - image: node:14 # Imagem do ambiente de homologação com a versão do Node.js desejada
