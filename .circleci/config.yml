@@ -5,10 +5,6 @@ jobs:
       - image: node:14 # Imagem do ambiente de teste com a versão do Node.js desejada
     steps:
       - checkout # Checar o repositório
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "frontend/package.json" }}
-            # Restaurar cache das dependências do npm, se disponível
       - run:
           name: Install Dependencies
           command: npm ci # Instalar as dependências do projeto com o npm
@@ -20,10 +16,6 @@ jobs:
       - image: node:14 # Imagem do ambiente de build com a versão do Node.js desejada
     steps:
       - checkout # Checar o repositório
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "frontend/package.json" }}
-            # Restaurar cache das dependências do npm, se disponível
       - run:
           name: Install Dependencies
           command: npm ci # Instalar as dependências do projeto com o npm
