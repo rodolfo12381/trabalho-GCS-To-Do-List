@@ -14,7 +14,7 @@ const Modal = ({children}: Props) => {
         modal!.classList.add("hide")
     }
     return (
-        <div id="modal" className="hide">
+        <div id="modal" className="hide" role="dialog">
             <div className={styles.fade} onClick={closeModal}></div>
             <div className={styles.modal}>
                 <h2>Texto Modal</h2>
