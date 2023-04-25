@@ -26,7 +26,7 @@ public class UsuarioRepositoryTest {
 	void setUp() throws Exception {
 		idExistente = 1L;
 		idNaoExistente = 1000L;
-		quantidadeUsuarios = 1;
+		quantidadeUsuarios = 4;
 	}
 
 	@Test
